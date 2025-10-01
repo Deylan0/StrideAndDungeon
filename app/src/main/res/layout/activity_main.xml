@@ -34,8 +34,44 @@
                     android:text="Stride&amp; Dungeon"
                     android:textSize="70sp"
                     android:gravity="center"
-                    android:paddingBottom="40dp"
+                    android:paddingBottom="10dp"
                 />
+
+                <EditText
+                    android:id="@+id/inputText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:hint="insert text"
+                />
+
+                <RadioGroup
+                    android:id="@+id/radioGroup"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                >
+                    <RadioButton
+                        android:id="@+id/reverse"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Reverse"
+                    />
+
+                    <RadioButton
+                        android:id="@+id/uppercase"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Uppercase"
+                    />
+
+                    <RadioButton
+                        android:id="@+id/length"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="length"
+                    />
+
+                </RadioGroup>
 
                 <Button
                     android:id="@+id/welcomeButton"
