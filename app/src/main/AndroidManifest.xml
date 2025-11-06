@@ -13,8 +13,6 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Project1">
 
-        <activity android:name=".Map" />
-
 
 
         <activity
@@ -26,6 +24,10 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <activity android:name=".MapActivity" android:exported="true" />
+
+        <activity android:name=".SettingsActivity" android:exported="true" />
     </application>
 
 </manifest>

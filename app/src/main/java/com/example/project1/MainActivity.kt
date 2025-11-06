@@ -20,32 +20,31 @@ open class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater);
         setContentView(binding.root);
 
-        /* ----------- 1) DOPASOWANIE DO STATUS BAR (WindowInsets) ----------- */
-        // to zapewnia, że toolbar nie będzie "pod" paskiem statusu na urządzeniach z notch / przezroczystym statusbarem
+        /* -----------  DOPASOWANIE DO STATUS BAR ----------- */
         ViewCompat.setOnApplyWindowInsetsListener(binding.toolbar) { view, insets ->
             val statusBarInsets = insets.getInsets(WindowInsetsCompat.Type.statusBars());
-            // dodajemy górny padding równy wysokości statusbara
             view.setPadding(view.paddingLeft, statusBarInsets.top, view.paddingRight, view.paddingBottom);
-            // zwracamy insets bez modyfikacji
             insets;
         }
 
-        /* ----------- 2) Toolbar jako ActionBar (bez findViewById) ----------- */
+        /* -----------  Toolbar ----------- */
         setSupportActionBar(binding.toolbar);
         supportActionBar?.setDisplayHomeAsUpEnabled(true);
         supportActionBar?.setHomeButtonEnabled(true);
         supportActionBar?.title = "Stride&Dungeon";
 
-        /* ----------- 3) Drawer (lista) ----------- */
 
 
 
-        /* ----------------4) Button-------------------- */
+        /* ---------------- Button-------------------- */
+        val dbHelper = DataBaseHelper(this)
         binding.welcomeButton.setOnClickListener {
-            startActivity(Intent(this, Map::class.java));
+            startActivity(Intent(this, MapActivity::class.java));
+            val text = binding.inputText.text.toString()
+            val change = binding.radioGroup.checkedRadioButtonId
+            dbHelper.insertText(text, change)
         }
 
-        val text = binding.inputText.text.toString()
-        val selectedId = binding.radioGroup.checkedRadioButtonId
+
     }
 }
