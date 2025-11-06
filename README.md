@@ -3,7 +3,7 @@ Author: Miłosz Obroślak.
 
 ## V0.1 11/06/2025
 
-### V0.1 [Link Text](#V0.1-11/06/2025)
+### [V0.1](#V0.1-11/06/2025)
 Added: 
 3rd activity.<br/>
 toolbar *"go back button"*.<br/>
