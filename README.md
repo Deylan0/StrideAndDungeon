@@ -1,9 +1,10 @@
 This is a mobile game Project created for the purpose of learning the kotlin and xml language. 
 Author: Miłosz Obroślak.
 
-## V0.1 11/06/2025
+## Table of contents
+* ### [V0.1 11/06/2025](#V0.1)
 
-### [V0.1](#V0.1-11/06/2025)
+## V0.1
 Added: 
 3rd activity.<br/>
 toolbar *"go back button"*.<br/>
