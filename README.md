@@ -5,10 +5,10 @@ Author: Miłosz Obroślak.
 
 ### V0.1 [Link Text](#V0.1-11/06/2025)
 Added: 
-3rd activity. 
-toolbar *"go back button"*.
-Inserting *text* and *text change* to Data Base.
+3rd activity.<br/>
+toolbar *"go back button"*.<br/>
+Inserting *text* and *text change* to Data Base.<br/>
 Current Activities:
-*Main_Activity*
-*Map_Activity*
-*Settings_Activity*
+*Main_Activity*<br/>
+*Map_Activity*<br/>
+*Settings_Activity*<br/>
