@@ -28,7 +28,7 @@ class SettingsActivity : AppCompatActivity() {
     /* ---- back button on toolbar ---- */
     override fun onOptionsItemSelected(item: android.view.MenuItem): Boolean {
         return when (item.itemId) {
-            android.R.id.home -> { // ← kliknięcie strzałki
+            android.R.id.home -> {
                 startActivity(Intent(this, MapActivity::class.java))
                 true
             }

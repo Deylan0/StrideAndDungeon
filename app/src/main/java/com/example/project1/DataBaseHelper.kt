@@ -27,9 +27,29 @@ class DataBaseHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME
         return db.insert("text", null, values)
     }
 
+    fun getText(): Text?{
+        val db = readableDatabase
+        val cursor = db.rawQuery("SELECT text, change FROM text LIMIT 1", null)
+
+        var text : Text? = null
+
+        if(cursor.moveToFirst()){
+            val textt = cursor.getString(cursor.getColumnIndexOrThrow("text"))
+            val change = cursor.getInt(cursor.getColumnIndexOrThrow("change"))
+
+            text = Text(textt, change)
+
+            cursor.close()
+            db.close()
+            return text
+        }
+
+        return text
+    }
+
     companion object {
         const val DATABASE_VERSION = 1
-        const val DATABASE_NAME = "text.db"
+        const val DATABASE_NAME = "Stride&Dungeon.db"
 
         private const val SQL_CREATE_ENTRIES =
             """

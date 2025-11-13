@@ -12,7 +12,6 @@ import com.example.project1.databinding.ActivityMainBinding
 open class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding;
-    private lateinit var drawerToggle: ActionBarDrawerToggle;
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState);
@@ -29,8 +28,6 @@ open class MainActivity : AppCompatActivity() {
 
         /* -----------  Toolbar ----------- */
         setSupportActionBar(binding.toolbar);
-        supportActionBar?.setDisplayHomeAsUpEnabled(true);
-        supportActionBar?.setHomeButtonEnabled(true);
         supportActionBar?.title = "Stride&Dungeon";
 
 
