@@ -1,6 +1,7 @@
-plugins {
+    plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
+    alias(libs.plugins.compose.compiler)
 }
 
 android {
@@ -35,10 +36,24 @@ android {
     }
     buildFeatures{
         viewBinding = true
+        compose = true
     }
+
+
 }
 
 dependencies {
+
+    implementation("com.mapbox.maps:android-ndk27:11.16.6")
+    implementation("com.mapbox.extension:maps-compose-ndk27:11.16.6")
+
+    implementation("androidx.core:core-ktx:1.12.0")
+    implementation("androidx.activity:activity-compose:1.9.0")
+    implementation("androidx.compose.ui:ui:1.5.2")
+    implementation("androidx.compose.material:material:1.5.2")
+    implementation("androidx.compose.ui:ui-tooling-preview:1.5.2")
+    debugImplementation("androidx.compose.ui:ui-tooling:1.5.2")
+
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
