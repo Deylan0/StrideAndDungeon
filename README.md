@@ -3,7 +3,7 @@ Author: Miłosz Obroślak.
 
 
 * ## [V0.1.0-pre-alpha 11/06/2025](#v0.1.0-pre-alpha)
-* ## [v0.1.0-alpha 11/26/2025](#v0.2.0-alpha)
+* ## [v0.2.0-alpha 11/26/2025](#v0.2.0-alpha)
 
 ### V0.1.0-pre-alpha
 
