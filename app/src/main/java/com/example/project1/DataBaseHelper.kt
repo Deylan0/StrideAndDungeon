@@ -8,12 +8,12 @@ import android.database.sqlite.SQLiteOpenHelper
 class DataBaseHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME, null, DATABASE_VERSION) {
 
     override fun onCreate(db: SQLiteDatabase) {
-//        db.execSQL(SQL_CREATE_ENTRIES)
+        db.execSQL(SQL_CREATE_ENTRIES)
     }
 
     override fun onUpgrade(db: SQLiteDatabase, oldVersion: Int, newVersion: Int) {
-//        db.execSQL(SQL_DELETE_ENTRIES)
-//        onCreate(db)
+        db.execSQL(SQL_DELETE_ENTRIES)
+        onCreate(db)
     }
 
 
@@ -23,13 +23,13 @@ class DataBaseHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME
 
         private const val SQL_CREATE_ENTRIES =
             """
-            CREATE TABLE text (
+            CREATE TABLE equipment (
                 id INTEGER PRIMARY KEY AUTOINCREMENT,
-                text TEXT NOT NULL,
-                change INTEGER
+                itemId TEXT NOT NULL,
+                itemQuantity INTEGER
             )
             """
 
-        private const val SQL_DELETE_ENTRIES = "DROP TABLE IF EXISTS text"
+        private const val SQL_DELETE_ENTRIES = "DROP TABLE IF EXISTS equipment"
     }
 }
