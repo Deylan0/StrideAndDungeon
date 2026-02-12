@@ -20,6 +20,10 @@
             android:popupTheme="@style/ThemeOverlay.AppCompat.Light"
             tools:ignore="DuplicateIds"
         />
+        <FrameLayout
+            android:id="@+id/fragmentContainer"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
         <com.mapbox.maps.MapView
             android:id="@+id/mapView"
             android:layout_width="match_parent"

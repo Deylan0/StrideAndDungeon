@@ -18,6 +18,15 @@ import com.mapbox.common.location.LocationProviderRequest
 import com.mapbox.common.location.IntervalSettings
 import com.mapbox.common.location.AccuracyLevel
 import android.util.Log
+import com.mapbox.geojson.Point
+import com.mapbox.maps.plugin.annotation.annotations
+import com.mapbox.maps.plugin.annotation.generated.PointAnnotationOptions
+import kotlin.random.Random
+import android.graphics.Bitmap
+import android.graphics.Canvas
+import androidx.core.content.ContextCompat
+import com.mapbox.maps.plugin.Plugin
+import com.mapbox.maps.plugin.annotation.generated.createPointAnnotationManager
 
 class MapHandler(
     private val context: Context,
@@ -27,9 +36,16 @@ class MapHandler(
     fun initMap() {
         val mapboxMap = binding.mapView.getMapboxMap()
 
-        mapboxMap.loadStyle(Style.MAPBOX_STREETS) {
+        mapboxMap.loadStyle(Style.MAPBOX_STREETS) {style ->
+
+            style.addImage(
+                "marker-icon",
+                drawableToBitmap(R.drawable.enemy_foreground)!!
+            )
             enableLocationPuck()
+            addRandomMarkerNearUser()
         }
+
     }
 
     private fun enableLocationPuck() {
@@ -60,52 +76,120 @@ class MapHandler(
         }
     }
     fun focusPuck() {
-            val mapviewViewport = binding.mapView.viewport
-            val followPuck: FollowPuckViewportState =
-                mapviewViewport.makeFollowPuckViewportState(
-                    FollowPuckViewportStateOptions.Builder()
-                        .bearing(FollowPuckViewportStateBearing.Constant(0.0))
-                        .padding(
-                            EdgeInsets(
-                                200.0 * context.resources.displayMetrics.density,
-                                0.0,
-                                0.0,
-                                0.0
-                            )
+        binding.mapView.location.enabled = true
+        binding.mapView.location.puckBearingEnabled = true
+        val mapviewViewport = binding.mapView.viewport
+        val followPuckViewportState: FollowPuckViewportState =
+            mapviewViewport.makeFollowPuckViewportState(
+                FollowPuckViewportStateOptions.Builder()
+                    .bearing(FollowPuckViewportStateBearing.Constant(0.0))
+                    .padding(
+                        EdgeInsets(
+                            200.0 * context.resources.displayMetrics.density,
+                            0.0,
+                            0.0,
+                            0.0
                         )
-                        .build()
-                )
-    }
-
-    fun getUserLocation() {
-        val locationService: LocationService = LocationServiceFactory.getOrCreate()
-        var locationProvider: DeviceLocationProvider? = null
-        var final = "";
-
-        val request = LocationProviderRequest.Builder()
-            .interval(
-                IntervalSettings.Builder().interval(0L).minimumInterval(0L).maximumInterval(0L)
+                    )
                     .build()
             )
-            .displacement(0F)
+        mapviewViewport.transitionTo(followPuckViewportState){succes ->
+
+        }
+    }
+
+//    fun getUserLocation() {
+//        val locationService: LocationService = LocationServiceFactory.getOrCreate()
+//        var locationProvider: DeviceLocationProvider? = null
+//        var final = "";
+//
+//        val request = LocationProviderRequest.Builder()
+//            .interval(
+//                IntervalSettings.Builder().interval(0L).minimumInterval(0L).maximumInterval(0L)
+//                    .build()
+//            )
+//            .displacement(0F)
+//            .accuracy(AccuracyLevel.HIGHEST)
+//            .build();
+//
+//        val result = locationService.getDeviceLocationProvider(request)
+//        if (result.isValue) {
+//            locationProvider = result.value!!
+//        } else {
+//            Log.e("MapHandler", "Failed to get device location provider")
+//        }
+//        locationProvider?.getLastLocation { location ->
+//            if (location != null) {
+//                val lat = location.latitude
+//                val lng = location.longitude
+//                Log.d("MapHandler", "Lat: $lat, Lng: $lng")
+//                final = "$lat,$lng"
+//            } else {
+//                Log.e("MapHandler", "Location is null")
+//            }
+//        }
+//    }
+
+    fun addRandomMarkerNearUser() {
+        val locationService: LocationService = LocationServiceFactory.getOrCreate()
+
+        val request = LocationProviderRequest.Builder()
             .accuracy(AccuracyLevel.HIGHEST)
-            .build();
+            .build()
 
         val result = locationService.getDeviceLocationProvider(request)
-        if (result.isValue) {
-            locationProvider = result.value!!
-        } else {
-            Log.e("MapHandler", "Failed to get device location provider")
+
+        if (!result.isValue) {
+            Log.e("MapHandler", "No location provider")
+            return
         }
-        locationProvider?.getLastLocation { location ->
-            if (location != null) {
-                val lat = location.latitude
-                val lng = location.longitude
-                Log.d("MapHandler", "Lat: $lat, Lng: $lng")
-                final = "$lat,$lng"
-            } else {
-                Log.e("MapHandler", "Location is null")
+
+        val locationProvider = result.value!!
+
+        locationProvider.getLastLocation { location ->
+            if (location == null) {
+                Log.e("MapHandler", "Location null")
+                return@getLastLocation
             }
+
+            val userLat = location.latitude
+            val userLng = location.longitude
+
+            // 🔥 Generate small random offset (~100–300 meters)
+            val randomLatOffset = Random.nextDouble(-0.002, 0.002)
+            val randomLngOffset = Random.nextDouble(-0.002, 0.002)
+
+            val randomPoint = Point.fromLngLat(
+                userLng + randomLngOffset,
+                userLat + randomLatOffset
+            )
+
+            addMarker(randomPoint)
         }
+    }
+    private fun addMarker(point: Point) {
+
+        val annotationApi = binding.mapView.annotations
+        val pointAnnotationManager = annotationApi.createPointAnnotationManager()
+
+        val pointAnnotationOptions = PointAnnotationOptions()
+            .withPoint(point)
+            .withTextField("Random marker")
+            .withIconImage("marker-icon")
+
+        pointAnnotationManager.create(pointAnnotationOptions)
+    }
+
+    private fun drawableToBitmap(drawableId: Int): Bitmap {
+        val drawable = ContextCompat.getDrawable(context, drawableId)!!
+        val bitmap = Bitmap.createBitmap(
+            drawable.intrinsicWidth,
+            drawable.intrinsicHeight,
+            Bitmap.Config.ARGB_8888
+        )
+        val canvas = Canvas(bitmap)
+        drawable.setBounds(0, 0, canvas.width, canvas.height)
+        drawable.draw(canvas)
+        return bitmap
     }
 }
